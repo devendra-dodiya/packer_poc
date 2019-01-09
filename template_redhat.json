@@ -29,38 +29,31 @@
       {
          "type":"shell",
          "inline":[
-            "sleep 5"
-         ]
-      },
-      {
-         "type":"file",
-         "source":"./playb.repo",
-         "destination":"/tmp/"
-      },
-      {
-         "type":"file",
-         "source":"./welcome.txt",
-         "destination":"/home/ec2-user/"
-      },
-      {
-         "type":"shell",
-         "inline":[
-            "sudo cp /tmp/playb.repo /etc/yum.repos.d/",
-            "ls -al /etc/yum.repos.d",
-            "cat /etc/yum.repos.d/playb.repo"
-         ]
-      },
-      {
-         "type":"shell",
-         "script":"./example.sh"
-      },
-      {
-         "type":"shell",
-         "inline":[
             "sleep 10",
-            "sudo yum install -y ansible"
+            "sudo yum install -y wget",
+            "sudo wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
+	    "sudo rpm -ivh epel-release-latest-7.noarch.rpm",
+	    "sudo yum repolist",
+	    "sudo yum --enablerepo=epel install -y ansible",
+	    "sudo which ansible",
+	    "sudo ansible --version"
             
          ]
+      },
+      {
+            "type": "ansible-local",
+            "playbook_file": "site.yml",
+	    "playbook_dir": "/home/user/ansible_role",
+            "extra_arguments": [ "-vvvv" ]
+
+      },
+      {
+            "type":"shell",
+            "inline":[
+               "sleep 10",
+               "which filebeat",
+               "hostname"
+            ]
       }
    ]
 }
